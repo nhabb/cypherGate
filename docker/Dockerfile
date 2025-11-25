@@ -2,12 +2,17 @@ FROM node:20-bullseye
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-WORKDIR /data
+# Install tshark at build time
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y tshark \
+ && rm -rf /var/lib/apt/lists/*
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Install n8n at build time
+RUN npm install -g n8n
+
+WORKDIR /data
 
 EXPOSE 5678
 
-ENTRYPOINT ["/entrypoint.sh"]
-
+# This process keeps the container running
+CMD ["n8n", "start"]
