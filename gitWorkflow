@@ -1,0 +1,3 @@
+n8n automated workflow (with gui local host 5678)
+tshark for network sniffing 
+we will run tshark in the shell of docker + with the script 

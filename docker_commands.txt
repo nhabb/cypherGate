@@ -1,0 +1,7 @@
+make shell: open the docker terminal 
+make build : build the container 
+make up : build + up the docker 
+make down: turn docker off 
+make clean: remove the images 
+make fclean: removes everything inside the docker 
+
