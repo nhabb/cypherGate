@@ -47,5 +47,30 @@ logs:
 	sudo $(DOCKER) logs -f $(CONTAINER)
 
 # Get a shell inside the running container
-shell:
-	sudo $(DOCKER) exec -it $(CONTAINER) bash
+capture:
+	@echo "=== Running tshark inside container (10 frames -> slim CSV) ==="
+	$(DOCKER) exec $(CONTAINER) sh -c '\
+	  rm -f /data/packets.csv; \
+	  tshark -i any -c 10 \
+	    -T fields -E header=y -E separator=, -E quote=d \
+	    -e frame.number \
+	    -e frame.time_epoch \
+	    -e frame.len \
+	    -e ip.src \
+	    -e ip.dst \
+	    -e tcp.srcport \
+	    -e tcp.dstport \
+	    -e udp.srcport \
+	    -e udp.dstport \
+	    -e _ws.col.Protocol \
+	    -e dns.qry.name \
+	    -e dns.qry.type \
+	    > /data/packets.csv'
+
+	@echo "=== Copying CSV to host (for testing) ==="
+	$(DOCKER) cp $(CONTAINER):/data/packets.csv ./packets.csv
+
+	@echo "=== Deleting CSV inside container (cleanup) ==="
+	$(DOCKER) exec $(CONTAINER) sh -c 'rm -f /data/tshark_raw.txt'
+
+	@echo "=== Done. Slim CSV available at ./packets.csv ==="
