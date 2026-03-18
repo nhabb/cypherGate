@@ -4,10 +4,10 @@ import pandas as pd
 # ─────────────────────────────────────────────────────────────
 # PATHS
 # ─────────────────────────────────────────────────────────────
-INPUT_DIR = "/"
-OUTPUT_DIR = "../agents/outputTXT"
+INPUT_DIR = "/"                     # To adjust this directory based on file location
+OUTPUT_DIR = "../agents/outputTXT"  # To adjust this directory based on file location
 
-# Correct column names matching your dataset
+# Correct column names matching the dataset
 COLUMN_NAMES = [
     "destination_port", "flow_duration", "total_fwd_packets", "total_backward_packets",
     "total_length_of_fwd_packets", "total_length_of_bwd_packets",
@@ -60,7 +60,7 @@ def safe_get(row, col, default="N/A"):
 # ROW → TEXT
 # ─────────────────────────────────────────────────────────────
 def row_to_text(row):
-    # Same as before; safely access all columns
+
     return (
         f"Destination port is {safe_get(row, 'destination_port')}. "
         f"Flow duration is {safe_get(row, 'flow_duration')} microseconds. "
