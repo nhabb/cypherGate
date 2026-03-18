@@ -144,10 +144,9 @@ This allows quick identification of potential threats in network logs.
 
 ## Input
 
-Place log files in:
-outputTXT/
+Place log files in: `outputTXT/`
 Each file should contain one log entry per line.
 
 ## Output
-Results are saved to: results.csv
+Results are saved to: `results.csv`
 The file contains classification results for all processed logs.

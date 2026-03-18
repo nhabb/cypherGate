@@ -1,0 +1,65 @@
+## example input
+Destination port is 57081. Flow duration is 33503 microseconds. Total forward packets: 2. Total backward packets: 1. Total length of forward packets: 280. Total length of backward packets: 6.0. Forward packet length max/min/mean/std: 274.0 / 6.0 / 140.0 / 189.5046174. Backward packet length max/min/mean/std: 6.0 / 6.0 / 6.0 / 0.0. Flow bytes per second: 8536.548966. Flow packets per second: 89.54421992. Flow IAT mean/std/max/min: 16751.5 / 23523.32129 / 33385.0 / 118.0. Forward IAT total/mean/std/max/min: 33503.0 / 33503.0 / 0.0 / 33503.0 / 33503.0. Backward IAT total/mean/std/max/min: 0.0 / 0.0 / 0.0 / 0.0 / 0.0. PSH flags fwd/bwd: 1.0 / 0.0. URG flags fwd/bwd: 0.0 / 0.0. Fwd header length: 40.0. Bwd header length: 20.0. Fwd packets/s: 59.69614661. Bwd packets/s: 29.84807331. Packet length min/max/mean/std/variance: 6.0 / 274.0 / 140.0 / 154.7298721 / 23941.33333. FIN/SYN/RST/PSH/ACK/URG flag counts: 0.0 / 1.0 / 0.0 / 0.0 / 1.0 / 0.0. CWE flag count: 0.0. ECE flag count: 0.0. Down/Up ratio: 0.0. Average packet size: 186.6666667. Avg fwd segment size: 140.0. Avg bwd segment size: 6.0. Fwd avg bytes/bulk: 0.0. Fwd avg packets/bulk: 0.0. Fwd avg bulk rate: 0.0. Bwd avg bytes/bulk: 0.0. Bwd avg packets/bulk: 0.0. Bwd avg bulk rate: 0.0. Subflow fwd packets: 2.0. Subflow fwd bytes: 280.0. Subflow bwd packets: 1.0. Subflow bwd bytes: 6.0. Init window bytes forward/backward: 60.0 / 0.0. Active data packets fwd: 1.0. Min segment size forward: 20.0. Active mean/std/max/min: 0.0 / 0.0 / 0.0 / 0.0. Idle mean/std/max/min: 0.0 / 0.0 / 0.0 / 0.0. Label: BENIGN.
+Destination port is 443. Flow duration is 170551 microseconds. Total forward packets: 7. Total backward packets: 4. Total length of forward packets: 376. Total length of backward packets: 3508.0. Forward packet length max/min/mean/std: 201.0 / 0.0 / 53.71428571 / 78.68653906. Backward packet length max/min/mean/std: 2042.0 / 0.0 / 877.0 / 1036.803421. Flow bytes per second: 22773.24671. Flow packets per second: 64.49683672. Flow IAT mean/std/max/min: 17055.1 / 20324.04038 / 52563.0 / 69.0. Forward IAT total/mean/std/max/min: 170551.0 / 28425.16667 / 21036.05426 / 56609.0 / 2418.0. Backward IAT total/mean/std/max/min: 67246.0 / 22415.33333 / 35425.51897 / 63271.0 / 233.0. PSH flags fwd/bwd: 0.0 / 0.0. URG flags fwd/bwd: 0.0 / 0.0. Fwd header length: 152.0. Bwd header length: 92.0. Fwd packets/s: 41.04344155. Bwd packets/s: 23.45339517. Packet length min/max/mean/std/variance: 0.0 / 2042.0 / 323.6666667 / 681.0169312 / 463784.0606. FIN/SYN/RST/PSH/ACK/URG flag counts: 0.0 / 0.0 / 0.0 / 1.0 / 0.0 / 0.0. CWE flag count: 0.0. ECE flag count: 0.0. Down/Up ratio: 0.0. Average packet size: 353.0909091. Avg fwd segment size: 53.71428571. Avg bwd segment size: 877.0. Fwd avg bytes/bulk: 0.0. Fwd avg packets/bulk: 0.0. Fwd avg bulk rate: 0.0. Bwd avg bytes/bulk: 0.0. Bwd avg packets/bulk: 0.0. Bwd avg bulk rate: 0.0. Subflow fwd packets: 7.0. Subflow fwd bytes: 376.0. Subflow bwd packets: 4.0. Subflow bwd bytes: 3508.0. Init window bytes forward/backward: 8192.0 / 60.0. Active data packets fwd: 6.0. Min segment size forward: 20.0. Active mean/std/max/min: 0.0 / 0.0 / 0.0 / 0.0. Idle mean/std/max/min: 0.0 / 0.0 / 0.0 / 0.0. Label: BENIGN.
+Destination port is 443. Flow duration is 170996 microseconds. Total forward packets: 7. Total backward packets: 5. Total length of forward packets: 376. Total length of backward packets: 3508.0. Forward packet length max/min/mean/std: 201.0 / 0.0 / 53.71428571 / 78.68653906. Backward packet length max/min/mean/std: 1460.0 / 0.0 / 701.6 / 731.5646246. Flow bytes per second: 22713.98161. Flow packets per second: 70.17708017. Flow IAT mean/std/max/min: 15545.09091 / 19669.95159 / 50316.0 / 28.0. Forward IAT total/mean/std/max/min: 170996.0 / 28499.33333 / 21036.87861 / 55721.0 / 2623.0. Backward IAT total/mean/std/max/min: 67528.0 / 16882.0 / 30270.5096 / 62151.0 / 48.0. PSH flags fwd/bwd: 0.0 / 0.0. URG flags fwd/bwd: 0.0 / 0.0. Fwd header length: 152.0. Bwd header length: 112.0. Fwd packets/s: 40.9366301. Bwd packets/s: 29.24045007. Packet length min/max/mean/std/variance: 0.0 / 1460.0 / 298.7692308 / 539.9757948 / 291573.859. FIN/SYN/RST/PSH/ACK/URG flag counts: 0.0 / 0.0 / 0.0 / 1.0 / 0.0 / 0.0. CWE flag count: 0.0. ECE flag count: 0.0. Down/Up ratio: 0.0. Average packet size: 323.6666667. Avg fwd segment size: 53.71428571. Avg bwd segment size: 701.6. Fwd avg bytes/bulk: 0.0. Fwd avg packets/bulk: 0.0. Fwd avg bulk rate: 0.0. Bwd avg bytes/bulk: 0.0. Bwd avg packets/bulk: 0.0. Bwd avg bulk rate: 0.0. Subflow fwd packets: 7.0. Subflow fwd bytes: 376.0. Subflow bwd packets: 5.0. Subflow bwd bytes: 3508.0. Init window bytes forward/backward: 8192.0 / 60.0. Active data packets fwd: 6.0. Min segment size forward: 20.0. Active mean/std/max/min: 0.0 / 0.0 / 0.0 / 0.0. Idle mean/std/max/min: 0.0 / 0.0 / 0.0 / 0.0. Label: BENIGN.
+Destination port is 443. Flow duration is 10064652 microseconds. Total forward packets: 6. Total backward packets: 7. Total length of forward packets: 1375. Total length of backward packets: 443.0. Forward packet length max/min/mean/std: 795.0 / 0.0 / 229.1666667 / 342.6026367. Backward packet length max/min/mean/std: 238.0 / 0.0 / 63.28571429 / 94.88012487. Flow bytes per second: 180.6321769. Flow packets per second: 1.291649229. Flow IAT mean/std/max/min: 838721.0 / 2870020.19 / 9952141.0 / 127.0. Forward IAT total/mean/std/max/min: 112293.0 / 22458.6 / 29128.98261 / 71430.0 / 258.0. Backward IAT total/mean/std/max/min: 10000000.0 / 1674161.5 / 4078914.735 / 10000000.0 / 218.0. PSH flags fwd/bwd: 0.0 / 0.0. URG flags fwd/bwd: 0.0 / 0.0. Fwd header length: 132.0. Bwd header length: 152.0. Fwd packets/s: 0.596145798. Bwd packets/s: 0.695503431. Packet length min/max/mean/std/variance: 0.0 / 795.0 / 129.8571429 / 239.8646596 / 57535.05495. FIN/SYN/RST/PSH/ACK/URG flag counts: 0.0 / 0.0 / 0.0 / 1.0 / 0.0 / 0.0. CWE flag count: 0.0. ECE flag count: 0.0. Down/Up ratio: 1.0. Average packet size: 139.8461538. Avg fwd segment size: 229.1666667. Avg bwd segment size: 63.28571429. Fwd avg bytes/bulk: 0.0. Fwd avg packets/bulk: 0.0. Fwd avg bulk rate: 0.0. Bwd avg bytes/bulk: 0.0. Bwd avg packets/bulk: 0.0. Bwd avg bulk rate: 0.0. Subflow fwd packets: 6.0. Subflow fwd bytes: 1375.0. Subflow bwd packets: 7.0. Subflow bwd bytes: 443.0. Init window bytes forward/backward: 8192.0 / 34.0. Active data packets fwd: 5.0. Min segment size forward: 20.0. Active mean/std/max/min: 112293.0 / 0.0 / 112293.0 / 112293.0. Idle mean/std/max/min: 9952141.0 / 0.0 / 9952141.0 / 9952141.0. Label: BENIGN.
+
+
+## given output in the result.csv
+dataset82_text.txt,1,5,Portmap
+dataset82_text.txt,2,5,Portmap
+dataset82_text.txt,3,5,Portmap
+dataset82_text.txt,4,5,Portmap
+dataset82_text.txt,5,5,Portmap
+dataset82_text.txt,6,5,Portmap
+
+## terminal output
+Loading tokenizer...
+Loading model architecture...
+Loading weights: 0it [00:00, ?it/s]
+ModernBertModel LOAD REPORT from: /home/user/uni/FYP/personalCypherGate/agents/hf_env/modernbert-IDS-fixed
+Key                                   | Status     | 
+--------------------------------------+------------+-
+bert.layers.{0...21}.attn.Wqkv.weight | UNEXPECTED | 
+bert.layers.{0...21}.attn.Wo.weight   | UNEXPECTED | 
+bert.layers.{0...21}.mlp.Wi.weight    | UNEXPECTED | 
+classifier.weight                     | UNEXPECTED | 
+bert.layers.{0...21}.mlp_norm.weight  | UNEXPECTED | 
+layer_norm2.weight                    | UNEXPECTED | 
+bert.layers.{0...21}.mlp.Wo.weight    | UNEXPECTED | 
+bert.layers.{1...21}.attn_norm.weight | UNEXPECTED | 
+hidden1.weight                        | UNEXPECTED | 
+layer_norm1.bias                      | UNEXPECTED | 
+classifier.bias                       | UNEXPECTED | 
+layer_norm1.weight                    | UNEXPECTED | 
+layer_norm2.bias                      | UNEXPECTED | 
+hidden1.bias                          | UNEXPECTED | 
+bert.embeddings.tok_embeddings.weight | UNEXPECTED | 
+hidden2.bias                          | UNEXPECTED | 
+hidden2.weight                        | UNEXPECTED | 
+bert.final_norm.weight                | UNEXPECTED | 
+bert.embeddings.norm.weight           | UNEXPECTED | 
+loss_fct.weight                       | UNEXPECTED | 
+layers.{1...21}.attn_norm.weight      | MISSING    | 
+layers.{0...21}.mlp_norm.weight       | MISSING    | 
+layers.{0...21}.mlp.Wo.weight         | MISSING    | 
+layers.{0...21}.attn.Wqkv.weight      | MISSING    | 
+layers.{0...21}.attn.Wo.weight        | MISSING    | 
+layers.{0...21}.mlp.Wi.weight         | MISSING    | 
+embeddings.tok_embeddings.weight      | MISSING    | 
+embeddings.norm.weight                | MISSING    | 
+final_norm.weight                     | MISSING    | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING       :those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+Loading weights...
+Model ready on: cuda
+
+Processing: dataset82_text.txt
+  ⚠ Portmap
+  ⚠ Portmap
+  ⚠ Portmap
+  ⚠ Portmap
+  ⚠ Portmap
+  ⚠ Portmap
