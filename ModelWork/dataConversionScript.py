@@ -4,7 +4,7 @@ import pandas as pd
 # ─────────────────────────────────────────────────────────────
 # PATHS
 # ─────────────────────────────────────────────────────────────
-INPUT_DIR = "/home/user/uni/FYP/personalCypherGate/conversion scripts/dataset"
+INPUT_DIR = "/"
 OUTPUT_DIR = "../agents/outputTXT"
 
 # Correct column names matching your dataset
