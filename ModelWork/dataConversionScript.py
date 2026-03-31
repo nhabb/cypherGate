@@ -151,10 +151,10 @@ def process_dataset_file(csv_path, output_path):
             for _, row in df.iterrows():
                 f.write(row_to_text(row) + "\n")
 
-        print(f"✅ Processed: {os.path.basename(csv_path)}")
+        print(f"Processed: {os.path.basename(csv_path)}")
 
     except Exception as e:
-        print(f"❌ Failed: {csv_path}")
+        print(f"Failed: {csv_path}")
         print("Reason:", e)
 
 # ─────────────────────────────────────────────────────────────
@@ -167,7 +167,7 @@ def process_all_datasets():
             csv_path = os.path.join(INPUT_DIR, filename)
             output_file = os.path.join(OUTPUT_DIR, filename.replace(".csv", "_text.txt"))
             process_dataset_file(csv_path, output_file)
-    print("\n✅ All datasets processed.")
+    print("\n All datasets processed.")
 
 # ─────────────────────────────────────────────────────────────
 # RUN SCRIPT
