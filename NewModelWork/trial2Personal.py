@@ -1,26 +1,42 @@
-from transformers import pipeline, BertTokenizer
+from transformers import pipeline, BertTokenizer, BertTokenizerFast
 import os
 import pandas as pd
 
 os.environ["TRANSFORMERS_NO_TF"] = "1"
 
-MODEL_NAME = "yashika0998/IoT-23-BERT-Network-Logs-Classification"
-TOKENIZER_NAME = "bert-base-cased"
- 
+# Use the locally fine-tuned model if it exists, otherwise fall back to the
+# pretrained HuggingFace model. NOTE: the pretrained model is known to be
+# biased toward predicting Benign regardless of input — run fineTuneBERT.py first.
+LOCAL_MODEL = "./fine_tuned_model"
+if os.path.isdir(LOCAL_MODEL):
+    MODEL_NAME     = LOCAL_MODEL
+    TOKENIZER_NAME = LOCAL_MODEL
+    tokenizer      = BertTokenizerFast.from_pretrained(TOKENIZER_NAME)
+    print(f"Using local fine-tuned model: {LOCAL_MODEL}")
+else:
+    MODEL_NAME     = "yashika0998/IoT-23-BERT-Network-Logs-Classification"
+    TOKENIZER_NAME = "bert-base-cased"
+    tokenizer      = BertTokenizer.from_pretrained(TOKENIZER_NAME)
+    print(f"WARNING: fine_tuned_model/ not found. Using pretrained model (biased, unreliable).")
+    print("         Run fineTuneBERT.py first to get accurate predictions.")
+
 pipe = pipeline(
+    "text-classification",
     model=MODEL_NAME,
-    tokenizer=BertTokenizer.from_pretrained(TOKENIZER_NAME)
+    tokenizer=tokenizer,
+    truncation=True,
+    max_length=128,
 )
  
  
 def predict(sentence):
-    
-    words = sentence.split()
-    if len(words) > 512:
-        sentence = ' '.join(words[:512])
     result = pipe([sentence])
     label = result[0]['label']
-    return "Malicious" if label == "LABEL_0" else "Benign"
+    # Fine-tuned model uses "Benign"/"Malicious" directly.
+    # Pretrained model uses LABEL_0 (Malicious) / LABEL_1 (Benign).
+    if label in ("Malicious", "LABEL_0"):
+        return "Malicious"
+    return "Benign"
 
 
 if __name__ == "__main__":
@@ -41,13 +57,14 @@ if __name__ == "__main__":
         predictions.append(label)
         print(f"[{i+1}/{len(sentences)}] {label} — {sentence[:80]}...")
  
-    # ── Save to Excel ─────────────────────────────────────────────────────────
+    # ── Save to CSV (required by predictionAccuracy.py) ──────────────────────
+    csv_path = output_path.replace(".xlsx", ".csv")
     df = pd.DataFrame({
         "Sentence": sentences,
         "Predicted_Label": predictions
     })
-    df.to_excel(output_path, index=False)
-    print(f"\nAll predictions saved to {output_path}")
+    df.to_csv(csv_path, index=False)
+    print(f"\nAll predictions saved to {csv_path}")
 
 
 # The root cause in one sentence: your .txt file isn't a CSV — it's a file of 
