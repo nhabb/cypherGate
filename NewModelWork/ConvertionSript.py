@@ -1,77 +1,95 @@
 import pandas as pd
 import numpy as np
 
-INPUT_FILE = "./dataset19 mini.csv"   
+INPUT_FILE = "./dataset19 mini.csv"
 OUTPUT_FILE = "./output_dataset19mini.txt"
 
-COLUMN_NAMES = [
-    "ts", "uid", "id.orig_h", "id.orig_p", "id.resp_h", "id.resp_p",
-    "proto", "service", "duration", "orig_bytes", "resp_bytes",
-    "conn_state", "local_orig", "local_resp", "missed_bytes",
-    "history", "orig_pkts", "orig_ip_bytes", "resp_pkts",
-    "resp_ip_bytes", "tunnel_parents", "label", "detailed-label"
-]
+# ----------------------------
+# SAFE HELPERS
+# ----------------------------
+def to_float(val, default=0.0):
+    try:
+        return float(val)
+    except:
+        return default
 
-# SAFE GET
-def safe_get(row, col, default="unknown"):
-    if col in row.index:
-        val = row[col]
-        if pd.isna(val):
-            return default
-        return val
-    return default
+def safe_get(row, col, default=0):
+    val = row.get(col, default)
+    if pd.isna(val):
+        return default
+    return val
 
-# Convert each row of data into a sentence 
+# ----------------------------
+# SEMANTIC GENERATOR (FINAL)
+# ----------------------------
 def row_to_text(row):
-    return (
-        f"timestamp is {safe_get(row, 'ts')}. "
-        f"connection id is {safe_get(row, 'uid')}. "
-        f"source ip is {safe_get(row, 'id.orig_h')}. "
-        f"source port is {safe_get(row, 'id.orig_p')}. "
-        f"destination ip is {safe_get(row, 'id.resp_h')}. "
-        f"response port is {safe_get(row, 'id.resp_p')}. "
-        f"transport protocol is {safe_get(row, 'proto')}. "
-        f"service is {safe_get(row, 'service')}. "
-        f"connection duration is {safe_get(row, 'duration')}. "
-        f"number of bytes sent by the originator is {safe_get(row, 'orig_bytes')}. "
-        f"number of bytes sent by the responder is {safe_get(row, 'resp_bytes')}. "
-        f"connection state is {safe_get(row, 'conn_state')}. "
-        f"local origin is {safe_get(row, 'local_orig')}. "
-        f"local responder is {safe_get(row, 'local_resp')}. "
-        f"missed bytes is {safe_get(row, 'missed_bytes')}. "
-        f"connection history is {safe_get(row, 'history')}. "
-        f"number of packets sent by the origin is {safe_get(row, 'orig_pkts')}. "
-        f"number of ip level bytes sent by the originator is {safe_get(row, 'orig_ip_bytes')}. "
-        f"number of packets sent by the responder is {safe_get(row, 'resp_pkts')}. "
-        f"number of ip level bytes sent by the responder is {safe_get(row, 'resp_ip_bytes')}. "
-        f"tunnel parents is {safe_get(row, 'tunnel_parents')}."
-    )
+    proto = str(safe_get(row, 'proto')).lower()
+    state = str(safe_get(row, 'conn_state')).upper()
+    port = safe_get(row, 'id.resp_p')
 
-# MAIN PROCESS
+    orig_bytes = to_float(safe_get(row, 'orig_bytes'))
+    resp_bytes = to_float(safe_get(row, 'resp_bytes'))
+    orig_pkts = to_float(safe_get(row, 'orig_pkts'))
+    resp_pkts = to_float(safe_get(row, 'resp_pkts'))
+
+    # Derived behavior
+    no_response = resp_bytes == 0 and resp_pkts == 0
+    low_packets = orig_pkts <= 3
+    symmetric = abs(orig_bytes - resp_bytes) < 50 and resp_bytes > 0
+
+    sentence = []
+
+    # Core description
+    sentence.append(f"protocol is {proto}")
+    sentence.append(f"destination port is {port}")
+
+    # Connection meaning
+    if state == "S0":
+        sentence.append("connection attempt with no response")
+    elif state == "SF":
+        sentence.append("connection successfully established")
+    else:
+        sentence.append(f"connection state is {state}")
+
+    # Behavior
+    if no_response:
+        sentence.append("no data returned from server")
+    if low_packets:
+        sentence.append("very few packets sent")
+    if symmetric:
+        sentence.append("balanced communication between client and server")
+
+    # 🔥 STRONG SECURITY SIGNALS (IMPORTANT)
+    if state == "S0" and no_response and low_packets:
+        sentence.append("this is malicious traffic indicating scanning activity")
+
+    if proto == "udp" and symmetric:
+        sentence.append("this is normal benign udp communication")
+
+    return ". ".join(sentence) + "."
+
+# ----------------------------
+# MAIN
+# ----------------------------
 def process_csv():
-    # Load CSV
-    df = pd.read_csv(INPUT_FILE, header=None, names=COLUMN_NAMES, engine='python')
+    df = pd.read_csv(INPUT_FILE)
+    df.columns = df.columns.str.strip()
 
-    # Replace "-" with NaN
     df.replace("-", np.nan, inplace=True)
 
-    # convert numeric columns
-    for col in df.columns:
-        df[col] = pd.to_numeric(df[col], errors='ignore')
-
-    # check columns
     print("Columns:", df.columns.tolist())
+    print("Preview:\n", df.head(2), "\n")
 
-    # Write output
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         for _, row in df.iterrows():
-            text = row_to_text(row)
-            f.write(text + "\n")
+            try:
+                text = row_to_text(row)
+                f.write(text + "\n")
+            except Exception as e:
+                print("Skipping row:", e)
 
-    print(f"\n✅ Done. Output saved to: {OUTPUT_FILE}")
-
+    print(f"\n✅ Done → {OUTPUT_FILE}")
 
 # RUN
 if __name__ == "__main__":
     process_csv()
-
