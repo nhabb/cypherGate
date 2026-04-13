@@ -20,7 +20,7 @@ def safe_get(row, col, default=0):
     return val
 
 # ----------------------------
-# SEMANTIC GENERATOR (FINAL)
+# SEMANTIC GENERATOR 
 # ----------------------------
 def row_to_text(row):
     proto = str(safe_get(row, 'proto')).lower()

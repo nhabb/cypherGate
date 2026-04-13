@@ -1,14 +1,31 @@
 import pandas as pd
 import numpy as np
+import sys
+import os
 
-INPUT_FILE = "./dataset19 mini.csv"
-OUTPUT_FILE = "./output_dataset19mini.txt"
+# ===== DYNAMIC INPUT =====
+if len(sys.argv) != 2:
+    print("Usage: python3 ConvertionScript.py <input_csv>")
+    sys.exit(1)
+
+INPUT_FILE = sys.argv[1]
+
+if not os.path.exists(INPUT_FILE):
+    raise FileNotFoundError(f"{INPUT_FILE} not found!")
+
+# ===== CLEAN OUTPUT NAMING (PIPELINE SAFE) =====
+BASE_NAME = os.path.splitext(os.path.basename(INPUT_FILE))[0]
+BASE_NAME = BASE_NAME.replace(" ", "_")
+
+OUTPUT_FILE = f"{BASE_NAME}_converted.txt"
+
 
 def to_float(val, default=0.0):
     try:
         return float(val)
     except:
         return default
+
 
 def safe_get(row, col, default=0):
     if col in row.index:
@@ -17,6 +34,7 @@ def safe_get(row, col, default=0):
             return default
         return val
     return default
+
 
 def row_to_text(row):
     proto = str(safe_get(row, 'proto')).lower()
@@ -34,12 +52,9 @@ def row_to_text(row):
     low_packets = orig_pkts <= 3
     high_packets = orig_pkts > 10
     symmetric = abs(orig_bytes - resp_bytes) < 50 and resp_bytes > 0
-    short_duration = duration < 1.0
-    long_duration = duration > 10
 
     parts = []
 
-    # --- Pattern description ONLY (no labels like malicious/benign) ---
     if proto == "tcp" and state == "S0" and no_response:
         parts += [
             "tcp connection attempt with no response",
@@ -50,83 +65,53 @@ def row_to_text(row):
     elif state == "RSTR" and no_response:
         parts += [
             "connection reset by responder",
-            "no data exchange observed",
             "abrupt termination pattern"
         ]
 
     elif high_packets and no_response:
         parts += [
-            "high packet volume with no response",
-            "continuous outbound traffic pattern",
+            "high packet volume no response",
             "possible flooding behavior"
         ]
 
     elif proto == "udp" and symmetric and state == "SF":
         parts += [
-            "udp communication with balanced data exchange",
-            "bidirectional packet flow observed",
-            "stable session pattern"
+            "udp balanced communication",
+            "bidirectional packet flow"
         ]
 
     elif state == "SF" and symmetric:
         parts += [
             "connection established successfully",
-            "balanced data transfer between endpoints",
-            "normal session behavior pattern"
-        ]
-
-    elif state == "SF":
-        parts += [
-            "connection established",
-            "data exchange completed"
+            "balanced data transfer"
         ]
 
     else:
         parts.append(f"connection state {state} protocol {proto}")
 
-    # --- Supporting context (unchanged) ---
     parts.append(f"protocol {proto} destination port {port}")
     parts.append(f"connection state {state}")
 
-    if no_response:
-        parts.append("server returned zero bytes zero packets")
-    if symmetric:
-        parts.append("symmetric data exchange client server")
-    if low_packets:
-        parts.append(f"only {int(orig_pkts)} packets sent")
-    if high_packets:
-        parts.append(f"{int(orig_pkts)} packets sent unusually high")
-    if missed_bytes > 0:
-        parts.append(f"{int(missed_bytes)} missed bytes")
-
     return " ".join(parts)
+
 
 def process_csv():
     df = pd.read_csv(INPUT_FILE)
     df.columns = df.columns.str.strip()
     df.replace("-", np.nan, inplace=True)
 
-    print("Columns:", df.columns.tolist())
+    print("Loaded:", INPUT_FILE)
     print("Shape:", df.shape)
-    print("Sample:\n", df.head(2), "\n")
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         for _, row in df.iterrows():
             try:
-                text = row_to_text(row)
-                f.write(text + "\n")
+                f.write(row_to_text(row) + "\n")
             except Exception as e:
-                print(f"Skipping row due to error: {e}")
+                print("Skipping row:", e)
 
-    print(f"\nDone. Output saved to: {OUTPUT_FILE}")
-    print(f"Total sentences written: {len(df)}")
+    print(f"\nSaved → {OUTPUT_FILE}")
 
-    print("\nSample sentences:")
-    with open(OUTPUT_FILE) as f:
-        for i, line in enumerate(f):
-            if i >= 3:
-                break
-            print(f"  [{i+1}] {line.strip()}")
 
 if __name__ == "__main__":
     process_csv()

@@ -212,7 +212,7 @@ python trial2Personal.py
 # Step 3: Evaluate
 python predictionAccuracy.py
 # → prints accuracy, confusion matrix, classification report
-```
+
 
 ### Why fine-tune instead of using the pretrained model?
 
