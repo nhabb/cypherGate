@@ -1,0 +1,103 @@
+# ============================================================
+# AWID3 Defense System - Master Configuration (GPU Enabled)
+# ============================================================
+
+dataset:
+  raw_path: "/run/media/ynohtna2220/SHARED/UNIVERSITY/Year 3/FYP/DATASET/archive/CSV"
+  cleaned_path: "/run/media/ynohtna2220/SHARED/UNIVERSITY/Year 3/FYP/DATASET/archive/CSV"
+  scalers_path: "/run/media/ynohtna2220/SHARED/UNIVERSITY/Year 3/FYP/CYPHERGATE/ML/Mine/awid3_defense_system/scripts/data/scalers"
+  chunk_size: 100000
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  random_state: 42
+
+training:
+  normal_sample_ratio: 0.2
+  chunk_size_rows: 500000
+  test_set_size: 50000
+
+  # Binary LightGBM – GPU enabled (works)
+  lgb_binary:
+    n_estimators: 100
+    num_leaves: 31
+    max_depth: 5
+    learning_rate: 0.1
+    min_child_samples: 5
+    min_data_in_leaf: 1
+    min_gain_to_split: 0.0
+    device: "gpu"
+    gpu_device_id: 0
+    n_jobs: 4
+
+  # Binary XGBoost – corrected GPU parameters
+  xgb_binary:
+    n_estimators: 100
+    max_depth: 10
+    learning_rate: 0.05
+    tree_method: "hist"          # works on both CPU and GPU
+    device: "cuda"               # replaces deprecated gpu_id
+    n_jobs: 4
+
+  # Multi‑stage LightGBM (attack classification)
+  lgb_multi:
+    n_estimators: 100
+    num_leaves: 64
+    learning_rate: 0.05
+    min_child_samples: 5
+    min_data_in_leaf: 1
+    device: "cpu"                # safer on CPU for multi‑class (optional)
+    n_jobs: 4
+
+  # Multi‑stage Random Forest
+  rf_multi:
+    n_estimators: 100
+    max_depth: 20
+    n_jobs: -1
+
+production:
+  model_dir: "/run/media/ynohtna2220/SHARED/UNIVERSITY/Year 3/FYP/CYPHERGATE/ML/Mine/THE_MACHINE/PRODUCTION"
+  lgb_binary: "lgb_binary.pkl"
+  xgb_binary: "xgb_binary.pkl"
+  lgb_multi: "lgb_multi.pkl"
+  rf_multi: "rf_multi.pkl"
+  scaler: "scaler.pkl"
+  label_encoder: "label_encoder.pkl"
+  mapping_info: "mapping_info.json"
+  model_info: "model_info.json"
+
+model:
+  type: "lightgbm"
+  output_dir: "/run/media/ynohtna2220/SHARED/UNIVERSITY/Year 3/FYP/CYPHERGATE/ML/Mine/THE_MACHINE/TRAINED_MODEL"
+  n_trials: 20
+  cv_folds: 5
+  target_f1: 0.95
+  target_auc: 0.97
+  max_model_size_mb: 100
+
+onnx:
+  opset_version: 13
+  output_path: "/run/media/ynohtna2220/SHARED/UNIVERSITY/Year 3/FYP/CYPHERGATE/ML/Mine/THE_MACHINE/ONNX_UNIVERSAL/THE_MACHINE.onnx"
+
+defense:
+  interface: "auto"
+  alert_threshold: 0.75
+  rate_limit_seconds: 10
+  learn_time: 30
+  playbook_path: "/run/media/ynohtna2220/SHARED/UNIVERSITY/Year 3/FYP/CYPHERGATE/ML/Mine/awid3_defense_system/playbook.json"
+  log_file: "logs/defense.log"
+  reconnect_delay: 3
+  max_reconnect_attempts: 5
+  mac_rotation: true
+  dry_run: false
+
+monitoring:
+  packet_window: 10
+  arp_check_interval: 5
+  disconnect_timeout: 30
+
+logging:
+  level: "INFO"
+  file: "logs/defense.log"
+  max_bytes: 10485760
+  backup_count: 5

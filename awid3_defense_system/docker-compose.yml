@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  awid3-defense:
+    build: .
+    container_name: awid3_defense
+    network_mode: "host"
+    privileged: true        # required for monitor mode and raw socket access
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+    environment:
+      - HEADLESS=true
+      - PYTHONUNBUFFERED=1
+    command: python run.py --mode software   # change to 'hardware' if adapter supports it
+
+  # Optional: run cleaning + training pipeline in a one-shot container
+  awid3-train:
+    build: .
+    container_name: awid3_train
+    profiles: ["train"]     # only starts with: docker compose --profile train up
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+    command: >
+      sh -c "
+        python scripts/2_clean_dataset.py &&
+        python scripts/3_train_model.py &&
+        python scripts/4_export_onnx.py
+      "

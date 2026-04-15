@@ -1,0 +1,58 @@
+{
+  "2": {
+    "attack_name": "Deauth",
+    "severity": "high",
+    "actions": [
+      {"type": "log_alert"},
+      {"type": "spoof_deauth", "count": 5},
+      {"type": "notify_admin"}
+    ]
+  },
+  "8": {
+    "attack_name": "Malware",
+    "severity": "critical",
+    "actions": [
+      {"type": "log_alert"},
+      {"type": "block_ip", "duration": 300},
+      {"type": "isolate_client"},
+      {"type": "notify_admin"}
+    ]
+  },
+  "12": {
+    "attack_name": "SQL_Injection",
+    "severity": "critical",
+    "actions": [
+      {"type": "log_alert"},
+      {"type": "block_ip", "duration": 600},
+      {"type": "notify_admin"}
+    ]
+  },
+  "13": {
+    "attack_name": "SSDP Flood",
+    "severity": "medium",
+    "actions": [
+      {"type": "log_alert"},
+      {"type": "rate_limit", "pps": 10},
+      {"type": "notify_admin"}
+    ]
+  },
+  "1": {
+    "attack_name": "Botnet",
+    "severity": "critical",
+    "actions": [
+      {"type": "log_alert"},
+      {"type": "block_ip", "duration": 3600},
+      {"type": "isolate_client"},
+      {"type": "notify_admin"}
+    ]
+  },
+  "-1": {
+    "attack_name": "Novel_Threat",
+    "severity": "critical",
+    "actions": [
+      {"type": "log_alert"},
+      {"type": "notify_admin"},
+      {"type": "isolate_client"}
+    ]
+  }
+}

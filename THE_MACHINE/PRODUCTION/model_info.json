@@ -1,0 +1,14 @@
+{
+  "training_date": "2026-04-10T18:14:23.517413",
+  "accuracy": 1.0,
+  "f1_weighted": 1.0,
+  "f1_macro": 1.0,
+  "normal_label": 9,
+  "train_attack_files": 352,
+  "test_attack_files": 87,
+  "normal_files_used": 61,
+  "total_rows": 8226433,
+  "lgb_ok": true,
+  "xgb_ok": true,
+  "training_time_min": 9.77407164176305
+}

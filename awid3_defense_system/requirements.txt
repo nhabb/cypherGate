@@ -1,0 +1,35 @@
+# AWID3 Defense System — Python 3.10+ / 3.12+ compatible
+# Tested with Python 3.12.3
+# Install: pip install -r requirements.txt
+
+# Core data
+numpy>=2.0.0
+pandas>=2.0.0
+scipy>=1.11.0
+pyarrow>=12.0.0
+joblib>=1.3.0
+
+# ML
+scikit-learn>=1.3.0
+lightgbm>=4.0.0
+imbalanced-learn>=0.11.0
+optuna>=3.3.0
+
+# ONNX — onnxmltools is the correct converter for LightGBM
+# skl2onnx does NOT support LightGBM, do not install it
+onnx>=1.14.0
+onnxruntime>=1.15.0
+onnxmltools>=1.12.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utilities
+tqdm>=4.65.0
+pyyaml>=6.0.0
+psutil>=5.9.0
+
+# Wi-Fi packet capture (hardware mode only)
+# On Windows: also install Npcap from https://npcap.com first
+scapy>=2.5.0
