@@ -69,28 +69,36 @@ def infer_proto(row):
 def infer_state(row):
     """Supports both Zeek conn_state and tshark tcp_flags."""
     # Zeek format
-    if 'conn_state' in row.index and not pd.isna(row['conn_state']) and str(row['conn_state']) not in ('0', '', 'nan'):
-        return str(row['conn_state']).upper()
-    # tshark tcp_flags (integer bitmask or string)
-    flags_val = safe_get(row, 'tcp_flags', None)
-    if flags_val is not None and not pd.isna(flags_val):
-        try:
-            flags = int(flags_val)
-            syn = bool(flags & 0x02)
-            ack = bool(flags & 0x10)
-            rst = bool(flags & 0x04)
-            fin = bool(flags & 0x01)
-            if rst:
-                return 'RSTR'
-            if syn and ack:
-                return 'SF'
-            if syn and not ack:
-                return 'S0'
-            if fin:
-                return 'SF'
-        except (ValueError, TypeError):
-            pass
-    return 'UNKNOWN'
+    if 'conn_state' in row.index:
+        val = row['conn_state']
+        if not pd.isna(val) and str(val).strip() not in ('0', '', 'nan', '-'):
+            return str(val).strip().upper()
+    # tshark tcp_flags (integer bitmask)
+    if 'tcp_flags' in row.index:
+        flags_val = row['tcp_flags']
+        if not pd.isna(flags_val):
+            try:
+                flags = int(flags_val)
+                syn = bool(flags & 0x02)
+                ack = bool(flags & 0x10)
+                rst = bool(flags & 0x04)
+                fin = bool(flags & 0x01)
+                if rst:
+                    return 'RSTR'
+                if syn and ack:
+                    return 'SF'
+                if syn and not ack:
+                    return 'S0'
+                if fin:
+                    return 'SF'
+                return 'SF'  # established data packet
+            except (ValueError, TypeError):
+                pass
+    # tshark flow_syn_count fallback
+    syn_count = to_float(safe_get(row, 'flow_syn_count'))
+    if syn_count > 0:
+        return 'S0'
+    return 'NOSTATE'
 
 
 def infer_dst_port(row):
@@ -165,6 +173,29 @@ def row_to_text(row):
             "balanced data transfer"
         ]
 
+    elif state == 'NOSTATE' and proto == 'udp':
+        if high_packets:
+            parts += [
+                "udp high volume traffic",
+                "possible udp flooding behavior"
+            ]
+        elif orig_bytes > 0:
+            parts += [
+                "udp packet transmission",
+                "unidirectional udp flow"
+            ]
+        else:
+            parts.append(f"udp traffic destination port {port}")
+
+    elif state == 'NOSTATE' and proto == 'icmp':
+        parts += [
+            "icmp packet",
+            "network diagnostic traffic"
+        ]
+
+    elif state == 'NOSTATE':
+        parts.append(f"network flow protocol {proto} destination port {port}")
+
     else:
         parts.append(f"connection state {state} protocol {proto}")
 
@@ -181,6 +212,7 @@ def process_csv():
 
     print("Loaded:", INPUT_FILE)
     print("Shape:", df.shape)
+    print("Columns:", list(df.columns))
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         for _, row in df.iterrows():
