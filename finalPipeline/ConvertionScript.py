@@ -36,16 +36,95 @@ def safe_get(row, col, default=0):
     return default
 
 
-def row_to_text(row):
-    proto = str(safe_get(row, 'proto')).lower()
-    state = str(safe_get(row, 'conn_state')).upper()
-    port = safe_get(row, 'id.resp_p')
+def infer_proto(row):
+    """Supports both Zeek conn.log ('proto') and tshark ('ip_proto', 'protocols') formats."""
+    # Zeek format
+    if 'proto' in row.index and not pd.isna(row['proto']) and str(row['proto']) not in ('0', '', 'nan'):
+        return str(row['proto']).lower()
+    # tshark numeric ip_proto
+    if 'ip_proto' in row.index and not pd.isna(row['ip_proto']):
+        try:
+            p = int(row['ip_proto'])
+            if p == 6:
+                return 'tcp'
+            if p == 17:
+                return 'udp'
+            if p == 1:
+                return 'icmp'
+            return str(p)
+        except (ValueError, TypeError):
+            pass
+    # tshark 'protocols' string e.g. "eth:ethertype:ip:tcp"
+    if 'protocols' in row.index and not pd.isna(row['protocols']):
+        s = str(row['protocols']).lower()
+        if 'tcp' in s:
+            return 'tcp'
+        if 'udp' in s:
+            return 'udp'
+        if 'icmp' in s:
+            return 'icmp'
+    return 'unknown'
 
-    orig_bytes = to_float(safe_get(row, 'orig_bytes'))
+
+def infer_state(row):
+    """Supports both Zeek conn_state and tshark tcp_flags."""
+    # Zeek format
+    if 'conn_state' in row.index and not pd.isna(row['conn_state']) and str(row['conn_state']) not in ('0', '', 'nan'):
+        return str(row['conn_state']).upper()
+    # tshark tcp_flags (integer bitmask or string)
+    flags_val = safe_get(row, 'tcp_flags', None)
+    if flags_val is not None and not pd.isna(flags_val):
+        try:
+            flags = int(flags_val)
+            syn = bool(flags & 0x02)
+            ack = bool(flags & 0x10)
+            rst = bool(flags & 0x04)
+            fin = bool(flags & 0x01)
+            if rst:
+                return 'RSTR'
+            if syn and ack:
+                return 'SF'
+            if syn and not ack:
+                return 'S0'
+            if fin:
+                return 'SF'
+        except (ValueError, TypeError):
+            pass
+    return 'UNKNOWN'
+
+
+def infer_dst_port(row):
+    """Supports both Zeek id.resp_p and tshark tcp_dstport/udp_dstport."""
+    if 'id.resp_p' in row.index and not pd.isna(row['id.resp_p']) and safe_get(row, 'id.resp_p', 0) != 0:
+        return safe_get(row, 'id.resp_p')
+    if 'tcp_dstport' in row.index and not pd.isna(row.get('tcp_dstport')):
+        try:
+            v = int(row['tcp_dstport'])
+            if v > 0:
+                return v
+        except (ValueError, TypeError):
+            pass
+    if 'udp_dstport' in row.index and not pd.isna(row.get('udp_dstport')):
+        try:
+            v = int(row['udp_dstport'])
+            if v > 0:
+                return v
+        except (ValueError, TypeError):
+            pass
+    return 0
+
+
+def row_to_text(row):
+    proto = infer_proto(row)
+    state = infer_state(row)
+    port = infer_dst_port(row)
+
+    # Zeek columns take priority; fall back to tshark flow/frame columns
+    orig_bytes = to_float(safe_get(row, 'orig_bytes') or safe_get(row, 'flow_byte_count') or safe_get(row, 'frame_len'))
     resp_bytes = to_float(safe_get(row, 'resp_bytes'))
-    orig_pkts = to_float(safe_get(row, 'orig_pkts'))
+    orig_pkts = to_float(safe_get(row, 'orig_pkts') or safe_get(row, 'flow_packet_count'))
     resp_pkts = to_float(safe_get(row, 'resp_pkts'))
-    duration = to_float(safe_get(row, 'duration'))
+    duration = to_float(safe_get(row, 'duration') or safe_get(row, 'flow_duration'))
     missed_bytes = to_float(safe_get(row, 'missed_bytes'))
 
     no_response = (resp_bytes == 0 and resp_pkts == 0)
