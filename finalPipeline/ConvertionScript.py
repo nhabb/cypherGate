@@ -205,10 +205,25 @@ def row_to_text(row):
     return " ".join(parts)
 
 
+ZEEK_COLS = [
+    'ts', 'uid', 'id.orig_h', 'id.orig_p', 'id.resp_h', 'id.resp_p',
+    'proto', 'service', 'duration', 'orig_bytes', 'resp_bytes', 'conn_state',
+    'local_orig', 'local_resp', 'missed_bytes', 'history',
+    'orig_pkts', 'orig_ip_bytes', 'resp_pkts', 'resp_ip_bytes', 'tunnel_parents'
+]
+
+
 def process_csv():
     df = pd.read_csv(INPUT_FILE)
     df.columns = df.columns.str.strip()
     df.replace("-", np.nan, inplace=True)
+
+    # Detect missing header: if Zeek columns aren't present, first row is data
+    if 'conn_state' not in df.columns and 'proto' not in df.columns:
+        df = pd.read_csv(INPUT_FILE, header=None)
+        ncols = len(df.columns)
+        df.columns = ZEEK_COLS[:ncols]
+        df.replace("-", np.nan, inplace=True)
 
     print("Loaded:", INPUT_FILE)
     print("Shape:", df.shape)
