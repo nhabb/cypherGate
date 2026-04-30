@@ -37,6 +37,8 @@ def safe_get(row, col, default=0):
 
 
 def infer_proto(row):
+    """Supports both Zeek conn.log ('proto') and tshark ('ip_proto', 'protocols') formats."""
+    # Zeek format
     if 'proto' in row.index and not pd.isna(row['proto']) and str(row['proto']) not in ('0', '', 'nan'):
         return str(row['proto']).lower()
     # tshark numeric ip_proto
@@ -52,7 +54,7 @@ def infer_proto(row):
             return str(p)
         except (ValueError, TypeError):
             pass
-
+    # tshark 'protocols' string e.g. "eth:ethertype:ip:tcp"
     if 'protocols' in row.index and not pd.isna(row['protocols']):
         s = str(row['protocols']).lower()
         if 'tcp' in s:
@@ -65,12 +67,13 @@ def infer_proto(row):
 
 
 def infer_state(row):
-
+    """Supports both Zeek conn_state and tshark tcp_flags."""
+    # Zeek format
     if 'conn_state' in row.index:
         val = row['conn_state']
         if not pd.isna(val) and str(val).strip() not in ('0', '', 'nan', '-'):
             return str(val).strip().upper()
-
+    # tshark tcp_flags (integer bitmask)
     if 'tcp_flags' in row.index:
         flags_val = row['tcp_flags']
         if not pd.isna(flags_val):
@@ -88,10 +91,10 @@ def infer_state(row):
                     return 'S0'
                 if fin:
                     return 'SF'
-                return 'SF'  
+                return 'SF'  # established data packet
             except (ValueError, TypeError):
                 pass
-
+    # tshark flow_syn_count fallback
     syn_count = to_float(safe_get(row, 'flow_syn_count'))
     if syn_count > 0:
         return 'S0'
@@ -99,7 +102,7 @@ def infer_state(row):
 
 
 def infer_dst_port(row):
-
+    """Supports both Zeek id.resp_p and tshark tcp_dstport/udp_dstport."""
     if 'id.resp_p' in row.index and not pd.isna(row['id.resp_p']) and safe_get(row, 'id.resp_p', 0) != 0:
         return safe_get(row, 'id.resp_p')
     if 'tcp_dstport' in row.index and not pd.isna(row.get('tcp_dstport')):

@@ -1,0 +1,52 @@
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+udp balanced communication bidirectional packet flow protocol udp destination port 123 connection state SF
+connection state RSTR protocol tcp protocol tcp destination port 2407 connection state RSTR
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
+tcp connection attempt with no response multiple connection attempts across ports horizontal scanning behavior pattern protocol tcp destination port 59353 connection state S0
